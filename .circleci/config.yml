@@ -1,11 +1,12 @@
 version: 2.4
+orbs:
+  node: circleci/node@5.1.0
+  coveralls: coveralls/coveralls@1.0.6
 
 jobs:
   build:
     docker:
       - image: node:18.13.0
-    environment:
-      COVERALLS_REPO_TOKEN: Xes5rr4CdbwQRrRyUmZfq55wr5Y7P6nTH
     steps:
       - checkout:
       - run:
