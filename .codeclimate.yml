@@ -1,0 +1,26 @@
+version: "2"
+plugins:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        javascript:
+          mass_threshold: 50
+  eslint:
+    enabled: true
+    channel: "eslint-7"
+    config:
+      config: .eslintrc.json
+    checks:
+      no-param-reassign:
+        enabled: false
+      method-lines:
+        config:
+          threshold: 50
+  fixme:
+    enabled: true
+  nodesecurity:
+    enabled: true
+exclude_patterns:
+  - node_modules/
+  - "**/test/"
