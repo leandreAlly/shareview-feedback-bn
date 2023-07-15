@@ -4,15 +4,17 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: 'eslint:recommended',
+  extends: "eslint:recommended",
   overrides: [],
+  parser: "babel-eslint",
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
+    ecmaVersion: "latest",
+    sourceType: "module",
+    allowImportExportEverywhere: true,
   },
   rules: {
-    'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
-    semi: ['error', 'always'],
+    "linebreak-style": ["error", "unix"],
+    quotes: ["error", "single"],
+    semi: ["error", "always"],
   },
 };
