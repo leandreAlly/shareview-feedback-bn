@@ -9,6 +9,7 @@
   "scripts": {
     "start": "npm run build && node dist/server.js",
     "dev": "nodemon --exec npx babel-node src/server",
+    "lint:fix": "eslint --fix ./*.js",
     "build": "babel src --out-dir dist",
     "test": "better-npm-run test"
   },
@@ -40,6 +41,9 @@
   },
   "devDependencies": {
     "coveralls": "^3.1.1",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
     "nodemon": "^3.0.1"
   }
 }
