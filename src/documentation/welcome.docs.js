@@ -1,18 +1,18 @@
 const getWelcome = {
-  tags: ["Welcome"],
-  description: "Welcome message",
+  tags: ['Welcome'],
+  description: 'Welcome message',
   responses: {
     200: {
-      description: "OK",
+      description: 'OK',
     },
     404: {
-      description: "NOTFOUND",
+      description: 'NOTFOUND',
     },
   },
 };
 
 const welcomeRouteDocs = {
-  "/api/v1/": {
+  '/api/v1/': {
     get: getWelcome,
   },
 };
