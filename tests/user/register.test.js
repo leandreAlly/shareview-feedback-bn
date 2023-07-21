@@ -2,6 +2,7 @@ import request from 'supertest';
 import dotenv from 'dotenv';
 import app from '../../src/app';
 import { successRegister, invalidRequest } from '../mocks/user.mocks';
+import connectDB from '../../src/services/connectDb';
 import {
   afterEach,
   describe,
@@ -12,6 +13,10 @@ import {
 } from '@jest/globals';
 
 dotenv.config();
+
+beforeEach(async () => {
+  await connectDB();
+});
 
 describe('Test registration user', () => {
   test('Successful Registration', async () => {
