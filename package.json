@@ -11,7 +11,7 @@
     "dev": "nodemon --exec npx babel-node src/server",
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:seed:all",
-    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate && npm run seed",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
     "migrate:down": "sequelize db:migrate:undo:all",
     "run-tests": "cross-env NODE_ENV=test jest --coverage --verbose --testTimeout=10000",
     "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
