@@ -9,9 +9,15 @@
   "scripts": {
     "start": "npm run build && node dist/server.js",
     "dev": "nodemon --exec npx babel-node src/server",
-    "lint:fix": "eslint --fix ./*.js",
-    "build": "babel src --out-dir dist",
-    "test": "better-npm-run test"
+    "migrate": "sequelize db:migrate",
+    "seed": "sequelize db:seed:all",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "migrate:down": "sequelize db:migrate:undo:all",
+    "run-tests": "cross-env NODE_ENV=test jest --coverage --verbose --testTimeout=10000",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
+    "run-after-tests": "cross-env NODE_ENV=test sequelize db:migrate:undo:all",
+    "test": "npm-run-all run-tests run-after-tests --continue-on-error",
+    "lint:fix": "eslint --fix ./*.js"
   },
   "keywords": [],
   "author": "",
@@ -22,28 +28,28 @@
     "@babel/node": "^7.22.6",
     "@babel/preset-env": "^7.22.9",
     "@jest/globals": "^29.6.1",
-    "better-npm-run": "^0.1.1",
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "jest": "^29.6.1",
+    "joi": "^17.9.2",
+    "joi-password": "^4.1.1",
+    "jsonwebtoken": "^9.0.1",
     "morgan": "^1.10.0",
+    "npm-run-all": "^4.1.5",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
     "path": "^0.12.7",
     "pg": "^8.11.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.32.1",
     "sequelize-cli": "^6.6.1",
     "supertest": "^6.3.3",
-    "swagger-ui-express": "^5.0.0"
-  },
-  "betterScripts": {
-    "test": {
-      "command": "jest tests/ --runInBand --coverage --detectOpenHandles --testTimeout=45000 --forceExit",
-      "env": {
-        "NODE_ENV": "test",
-        "PORT": 5000
-      }
-    }
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "coveralls": "^3.1.1",
