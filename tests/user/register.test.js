@@ -1,16 +1,9 @@
-import request from 'supertest';
+import { beforeEach, describe, expect, test } from '@jest/globals';
 import dotenv from 'dotenv';
+import request from 'supertest';
 import app from '../../src/app';
-import { successRegister, invalidRequest } from '../mocks/user.mocks';
 import connectDB from '../../src/services/connectDb';
-import {
-  afterEach,
-  describe,
-  test,
-  jest,
-  beforeEach,
-  expect,
-} from '@jest/globals';
+import { invalidRequest, successRegister } from '../mocks/user.mocks';
 
 dotenv.config();
 

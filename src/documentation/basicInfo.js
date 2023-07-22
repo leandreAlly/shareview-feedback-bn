@@ -22,7 +22,7 @@ const basicInfo = {
       description: 'Local server',
     },
     {
-      url: `${process.env.DEPLOYED_VERSION}`,
+      url: `https://shareview.onrender.com`,
       description: 'Hosted version',
     },
   ],
