@@ -24,8 +24,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs));
-app.use('/api/v1', routes);
+try {
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs));
+  app.use('/api/v1', routes);
+} catch (error) {
+  console.log(error);
+}
 
 app.use('*', (req, res) => {
   res.status(404).json({ error: 'Path does not found, try again' });
