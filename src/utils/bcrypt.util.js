@@ -5,6 +5,5 @@ export const hashPassword = async (password) => {
   return bcrpt.hash(password, pasSalt);
 };
 
-export const comparePassword = async (userPass, hashpass) => {
-  return bcrpt.compare(userPass, hashpass);
-};
+export const comparePassword = async (userPass, hashpass) =>
+  bcrpt.compare(userPass, hashpass);

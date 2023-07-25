@@ -4,7 +4,6 @@ const validateRequest = (schema, data) => {
     const errorMessage = error.details[0].message.replace(/[^a-zA-Z0-9 ]/g, '');
     return errorMessage;
   }
-  return;
 };
 
 export default validateRequest;
