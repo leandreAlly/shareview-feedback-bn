@@ -4,6 +4,7 @@ import passport from 'passport';
 import morgan from 'morgan';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
+import './config/passport.local.config';
 import docs from './documentation/index';
 import routes from './routes/index';
 
