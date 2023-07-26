@@ -6,7 +6,7 @@ const joiPassword = Joi.extend(joiPasswordExtendCore);
 const validateLogin = async (req, res, next) => {
   const loginSchema = Joi.object().keys({
     email: Joi.string().email().required(),
-    password: joiPassword.string().required(),
+    password: joiPassword.string().min(8).max(16).required(),
   });
 
   const validationError = validateRequest(loginSchema, req.body);
