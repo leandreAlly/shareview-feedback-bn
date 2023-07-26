@@ -1,3 +1,4 @@
+import passport from 'passport';
 import { register } from '../services/user.service';
 import { hashPassword } from '../utils/bcrypt.util';
 import { generateToken } from '../utils/jwt.util';
@@ -25,4 +26,34 @@ export const registerUser = async (req, res) => {
       message: 'Failed to register a new user',
     });
   }
+};
+
+export const loginUser = async (req, res, next) => {
+  passport.authenticate('local', { session: false }, (err, user) => {
+    try {
+      if (err || !user)
+        return res.status(401).json({ message: 'Invalid email or password' });
+
+      req.login(user, { session: false }, async (error) => {
+        if (error)
+          return res
+            .status(401)
+            .json({ message: 'Invalid email or password.' });
+      });
+
+      const { id, email, role, lastTimePasswordUpdated } = req.user;
+      const userData = { id, email, role, lastTimePasswordUpdated };
+      const userToken = generateToken(userData);
+
+      return res.status(200).json({
+        token: userToken,
+        message: 'Login successful',
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error: error.message,
+        message: 'An error occurred while logging in.',
+      });
+    }
+  })(req, res, next);
 };

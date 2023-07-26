@@ -50,10 +50,48 @@ const register = {
     },
   },
 };
-
+const login = {
+  tags: ['Users'],
+  description: 'Login with email and password',
+  requestBody: {
+    required: true,
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            email: {
+              type: 'string',
+              required: true,
+            },
+            password: {
+              type: 'string',
+              required: true,
+            },
+          },
+        },
+        example: {
+          email: 'verified@gmail.com',
+          password: 'Pass@123',
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      description: 'OK',
+    },
+    404: {
+      description: 'NOTFOUND',
+    },
+  },
+};
 const authenticationRouteDocs = {
   '/api/v1/users/register': {
     post: register,
+  },
+  '/api/v1/users/login': {
+    post: login,
   },
 };
 

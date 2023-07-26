@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { joiPasswordExtendCore } from 'joi-password';
+import validateRequest from '../../utils/validation.util';
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 const validateRegister = async (req, res, next) => {
@@ -23,12 +24,11 @@ const validateRegister = async (req, res, next) => {
       .trim(),
   });
 
-  const { error } = registerSchema.validate(req.body, { abortEarly: false });
-  if (error) {
-    return res.status(400).json({
-      error: error.details[0].message.replace(/[^a-zA-Z0-9 ]/g, ''),
-    });
+  const validationError = validateRequest(registerSchema, req.body);
+  if (validationError) {
+    return res.status(400).json({ error: validationError });
   }
+
   next();
 };
 
