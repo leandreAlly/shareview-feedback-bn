@@ -42,3 +42,13 @@ export const checkIfTokenRevoked = async (req, res, next) => {
 
   next();
 };
+
+export const checkIfUserIsVerified = async (req, res, next) => {
+  const { email } = req.body;
+
+  const isVerified = await getUserByEmail(email);
+  if (!isVerified.isEmailVerified) {
+    return res.status(403).json({ message: 'User email is not verified.' });
+  }
+  next();
+};
