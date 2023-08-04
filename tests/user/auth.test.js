@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import request from 'supertest';
 import app from '../../src/app';
 import connectDB from '../../src/services/connectDb';
+import { updateUser } from '../../src/services/user.service';
 import {
   invalidLoginEmail,
   invalidLoginPassword,
@@ -17,12 +18,16 @@ beforeEach(async () => {
   await connectDB();
 });
 
+let user = '';
+
 describe('Test registration user', () => {
   test('Successful Registration', async () => {
     const response = await request(app)
       .post('/api/v1/users/register')
       .send(successRegister);
     expect(response.statusCode).toBe(201);
+
+    user = response.body.user;
   });
   test('Email is already exist', async () => {
     const response = await request(app)
@@ -38,7 +43,14 @@ describe('Test registration user', () => {
   });
 
   describe('Test user login', () => {
-    it('should login sucessfull', async () => {
+    it('should not login when user is not verfied', async () => {
+      const response = await request(app)
+        .post('/api/v1/users/login')
+        .send(successLogin);
+      expect(response.statusCode).toBe(403);
+    });
+    it('should login when user is verfied', async () => {
+      const verifyUser = await updateUser({ isEmailVerified: true }, user.id);
       const response = await request(app)
         .post('/api/v1/users/login')
         .send(successLogin);

@@ -25,7 +25,7 @@ export const verifyAndRevokeToken = async (req, res, next) => {
 
     next();
   } else {
-    return res.status(403).json({ message: 'Failed to to verify email' });
+    return res.status(403).json({ message: 'Failed to verify email' });
   }
 };
 
