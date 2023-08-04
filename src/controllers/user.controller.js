@@ -1,7 +1,9 @@
 import passport from 'passport';
-import { register } from '../services/user.service';
+import sendEmail from '../services/sendEmail.service';
+import { register, updateUser } from '../services/user.service';
 import { hashPassword } from '../utils/bcrypt.util';
 import { generateToken } from '../utils/jwt.util';
+import { verifyEmailTemplate } from '../utils/mailTemplate.util';
 
 export const registerUser = async (req, res) => {
   try {
@@ -15,8 +17,12 @@ export const registerUser = async (req, res) => {
     const userData = { id, email, role, lastTimePasswordUpdated };
     const userToken = generateToken(userData);
 
+    const verificationEmail = verifyEmailTemplate(userToken);
+
+    sendEmail(email, 'ShareView email verification', verificationEmail);
+
     return res.status(201).json({
-      message: 'Successfully registered',
+      message: 'Check your email to verify your account',
       user: userData,
       token: userToken,
     });
@@ -56,4 +62,20 @@ export const loginUser = async (req, res, next) => {
       });
     }
   })(req, res, next);
+};
+
+export const updateVerfiedUser = async (req, res) => {
+  try {
+    const { id } = req.user;
+    await updateUser({ isEmailVerified: true }, id);
+
+    return res.status(200).json({
+      message: 'Your account has verified successfully!',
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: err.message,
+      message: 'Failed to confirm user verification',
+    });
+  }
 };
