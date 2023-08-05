@@ -13,5 +13,5 @@ export const getUserByEmail = async (email) => {
 };
 
 export const getUserById = async (id) => {
-  return await User.findOne({ where: { id } });
+  return await User.findByPk(id);
 };

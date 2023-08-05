@@ -3,7 +3,10 @@ import sendEmail from '../services/sendEmail.service';
 import { register, updateUser } from '../services/user.service';
 import { hashPassword } from '../utils/bcrypt.util';
 import { generateToken } from '../utils/jwt.util';
-import { verifyEmailTemplate } from '../utils/mailTemplate.util';
+import {
+  resetPasswordTemplate,
+  verifyEmailTemplate,
+} from '../utils/mailTemplate.util';
 
 export const registerUser = async (req, res) => {
   try {
@@ -76,6 +79,44 @@ export const updateVerfiedUser = async (req, res) => {
     return res.status(500).json({
       error: err.message,
       message: 'Failed to confirm user verification',
+    });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { id, email } = req.user;
+    const userData = {
+      id,
+      email,
+    };
+    const userToken = generateToken(userData);
+    const link = `${process.env.FRONTEND_URL}/auth/reset-password?token=${userToken}`;
+    const resetMessage = resetPasswordTemplate(email, link);
+    sendEmail(email, 'Reset password', resetMessage);
+
+    return res
+      .status(200)
+      .json({ message: 'Email sent!, check your email for next step' });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: 'Error occured when sending email',
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const id = req.id;
+    const { newPassword } = req.body;
+    const password = await hashPassword(newPassword);
+    await updateUser({ password }, id);
+    return res.status(200).json({ message: ' Password reset successfully ' });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: 'Error occured while resetting password',
     });
   }
 };
