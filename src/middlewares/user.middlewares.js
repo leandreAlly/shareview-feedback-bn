@@ -66,7 +66,7 @@ export const CheckEmailExists = async (req, res, next) => {
 export const VerifyResetPasswordToken = async (req, res, next) => {
   const { token } = req.params;
   const verify = verifyToken(token);
-  const id = verify.id;
+  const { id } = verify;
   req.id = id;
 
   const user = await getUserById(id);

@@ -1,8 +1,8 @@
 import Joi from 'joi';
 import { joiPasswordExtendCore } from 'joi-password';
 import validateRequest from '../../utils/validation.util';
-const joiPassword = Joi.extend(joiPasswordExtendCore);
 
+const joiPassword = Joi.extend(joiPasswordExtendCore);
 const validateNewPassword = async (req, res, next) => {
   const passwordSchema = Joi.object().keys({
     newPassword: joiPassword
